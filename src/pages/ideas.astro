@@ -1,0 +1,6 @@
+---
+import Base from '../layouts/Base.astro';
+import {posts} from '../data/posts.js';
+const filtered=posts.filter(p=>p.section.toLowerCase()==='ideas');
+---
+<Base title="Ideas — Amila Akagić"><div class="container"><section class="archive-intro"><div class="eyebrow">Archive</div><h1>Ideas</h1><p>Philosophy, history, books, and questions worth exploring.</p></section><div class="cards" style="padding-bottom:100px">{filtered.map(post=><a class="card" href={'/posts/'+post.slug}><img src={post.image} alt={post.imageAlt}/><div class="meta">{post.date}</div><h3>{post.title}</h3><p>{post.excerpt}</p></a>)}</div></div></Base>
