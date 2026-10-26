@@ -1,0 +1,98 @@
+
+---
+import Base from "../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+
+const quotes = await getCollection("quotes");
+
+const entries = await Promise.all(
+  quotes.map(async (quote: string) => {
+    const { Content } = await render(quote);
+
+    return {
+      quote,
+      Content,
+    };
+  })
+);
+---
+
+<Base title="Commonplace — Notes by Amila">
+  <div class="container">
+    <section class="archive-intro">
+      <div class="eyebrow">Commonplace</div>
+      <h1>Words worth keeping.</h1>
+
+      <p>
+        A collection of quotations, passages,
+        and thoughts that have stayed with me.
+      </p>
+    </section>
+
+    <section class="quotes-list">
+      {entries.map(({ quote, Content }) => (
+        <article class="quote-entry">
+          <div class="quote-category">
+            {quote.data.category ?? "Reflections"}
+          </div>
+
+          <div class="quote-content">
+            <Content />
+          </div>
+
+          <p class="quote-author">
+            — {quote.data.author}
+          </p>
+
+          {quote.data.source && (
+            <p class="quote-source">
+              {quote.data.source}
+            </p>
+          )}
+        </article>
+      ))}
+    </section>
+  </div>
+</Base>
+
+<style>
+  .quotes-list {
+    max-width: 760px;
+    margin: 3rem 0;
+  }
+
+  .quote-entry {
+    padding: 2rem 0;
+    border-bottom: 1px solid #dedbd4;
+  }
+
+  .quote-category {
+    color: var(--accent);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .quote-content {
+    font-size: 1.15rem;
+    line-height: 1.8;
+  }
+
+  .quote-content :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+  }
+
+  .quote-author {
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+
+  .quote-source {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+</style>

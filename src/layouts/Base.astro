@@ -1,5 +1,58 @@
+
 ---
-import '../styles/global.css';
-const {title='Amila Akagić — Notes on Life, Science & Elsewhere',description='A personal journal of science, travel, history, philosophy, and ordinary days.'}=Astro.props;
+import "../styles/global.css";
+
+const {
+  title = "Amila Akagić — Notes on Life, Science & Elsewhere",
+  description = "A personal journal of science, travel, history, philosophy, and ordinary days.",
+} = Astro.props;
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={description}/><title>{title}</title></head><body><header class="site-header"><div class="container header-inner"><a class="wordmark" href="/">Amila Akagić<span style="color:var(--accent)">.</span></a><nav class="nav" aria-label="Main navigation"><a href="/about">About</a><a href="/journal">Journal</a><a href="/travel">Travel</a><a href="/ideas">Ideas</a><a href="/science">Science</a></nav></div></header><main><slot/></main><footer class="container footer"><span>© {new Date().getFullYear()} Amila Akagić · A personal archive of thoughts and places.</span><span>Made with curiosity · Built with Astro</span></footer></body></html>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/">
+          Amila Akagić<span style="color:var(--accent)">.</span>
+        </a>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a href="/about">About</a>
+          <a href="/journal">Journal</a>
+          <a href="/travel">Travel</a>
+
+          <details class="nav-dropdown">
+            <summary>Ideas</summary>
+            <div class="nav-submenu">
+              <a href="/ideas">Essays & Reflections</a>
+              <a href="/commonplace">Commonplace</a>
+              <a href="/books">Books & Reading</a>
+            </div>
+          </details>
+
+          <a href="/science">Science</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="container footer">
+      <span>
+        © {new Date().getFullYear()} Amila Akagić ·
+        A personal archive of thoughts and places.
+      </span>
+      <span>Made with curiosity · Built with Astro</span>
+    </footer>
+  </body>
+</html>

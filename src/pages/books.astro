@@ -1,0 +1,139 @@
+
+---
+import Base from "../layouts/Base.astro";
+
+const books = [
+  {
+    title: "A Book That Stayed With Me",
+    author: "Author Name",
+    year: "2026",
+    category: "Philosophy",
+    reflection:
+      "A short reflection on the ideas, questions, or passages that made this book memorable.",
+  },
+  {
+    title: "Another Book Worth Remembering",
+    author: "Author Name",
+    year: "2026",
+    category: "Literature",
+    reflection:
+      "What did this book teach me? Did it change how I see something, or did it simply arrive at the right moment?",
+  },
+];
+---
+
+<Base title="Books & Reading — Notes by Amila">
+  <div class="container">
+    <section class="archive-intro">
+      <div class="eyebrow">Ideas / Books & Reading</div>
+
+      <h1>Between the pages.</h1>
+
+      <p>
+        Books have a way of finding us at particular
+        moments in life. Some offer answers, others
+        leave us with better questions.
+      </p>
+
+      <p>
+        This is a personal collection of books I have
+        read, ideas I have encountered, and passages
+        that have stayed with me.
+      </p>
+    </section>
+
+    <section class="books-section">
+      <h2>From my reading shelf</h2>
+
+      <div class="books-grid">
+        {books.map((book) => (
+          <article class="book-card">
+            <div class="book-category">{book.category}</div>
+
+            <h3>{book.title}</h3>
+
+            <p class="book-author">
+              {book.author} · {book.year}
+            </p>
+
+            <p>{book.reflection}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="reading-note">
+      <h2>A note on reading</h2>
+
+      <p>
+        I do not necessarily read to find answers.
+        Often, I read because I enjoy discovering
+        questions I had never thought to ask.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .books-section {
+    margin: 3rem 0;
+  }
+
+  .books-section h2,
+  .reading-note h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .book-card {
+    padding: 1.75rem;
+    border: 1px solid #dedbd4;
+    border-radius: 6px;
+  }
+
+  .book-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .book-card h3 {
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .book-author {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .book-card > p:last-child {
+    line-height: 1.75;
+  }
+
+  .reading-note {
+    max-width: 650px;
+    margin: 4rem 0;
+    padding-top: 2rem;
+    border-top: 1px solid #dedbd4;
+  }
+
+  .reading-note p {
+    line-height: 1.9;
+  }
+
+  @media (max-width: 700px) {
+    .books-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
