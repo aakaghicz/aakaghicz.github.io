@@ -1,4 +1,4 @@
-# Amila Akagić — Personal Journal (prototype)
+# Personal Journal (prototype)
 
 A responsive Astro starter for an editorial personal website. **All four article bodies and images are placeholders** and should be replaced before publication. External Unsplash images require internet access and are not your personal photographs.
 
