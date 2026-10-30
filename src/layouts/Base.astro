@@ -3,7 +3,7 @@
 import "../styles/global.css";
 
 const {
-  title = "Amila Akagić — Notes on Life, Science & Elsewhere",
+  title = "Amila — Notes on Life, Science & Elsewhere",
   description = "A personal journal of science, travel, history, philosophy, and ordinary days.",
 } = Astro.props;
 ---
@@ -21,24 +21,26 @@ const {
     <header class="site-header">
       <div class="container header-inner">
         <a class="wordmark" href="/">
-          Amila Akagić<span style="color:var(--accent)">.</span>
+          Notes by Amila ♥<span style="color:var(--accent)"></span>
         </a>
 
         <nav class="nav" aria-label="Main navigation">
           <a href="/about">About</a>
           <a href="/journal">Journal</a>
-          <a href="/travel">Travel</a>
+          {/* <a href="/travel">Travel</a>*/}
 
           <details class="nav-dropdown">
             <summary>Ideas</summary>
             <div class="nav-submenu">
-              <a href="/ideas">Essays & Reflections</a>
+              {/* <a href="/ideas">Essays & Reflections</a> */}
               <a href="/commonplace">Commonplace</a>
-              <a href="/books">Books & Reading</a>
+              {/* <a href="/books">Books & Reading</a> */}
             </div>
           </details>
+          <a href="/contact">Contact</a>
 
-          <a href="/science">Science</a>
+          {/* <a href="/science">Science</a> */}
+          
         </nav>
       </div>
     </header>
@@ -49,10 +51,10 @@ const {
 
     <footer class="container footer">
       <span>
-        © {new Date().getFullYear()} Amila Akagić ·
-        A personal archive of thoughts and places.
+        © {new Date().getFullYear()} Notes by Amila ·
+        A personal archive of thoughts and places. 
       </span>
-      <span>Made with curiosity · Built with Astro</span>
+      <span><a href="/contact">Get in touch</a> · Made with curiosity · Built with Astro</span>
     </footer>
   </body>
 </html>

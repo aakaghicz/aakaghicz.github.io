@@ -1,52 +1,69 @@
+
 ---
 import Base from "../../layouts/Base.astro";
 import { posts } from "../../data/posts.js";
-export function getStaticPaths() {
-    return posts.map((post) => ({
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const journalEntries = await getCollection("journal");
+
+  return posts
+    .filter((post) => post.status === "published")
+    .map((post) => {
+      const entry = journalEntries.find(
+        (item: CollectionEntry<"journal">) => item.id === post.slug
+      );
+
+      return {
         params: { slug: post.slug },
-        props: { post },
-    }));
+        props: { post, entry },
+      };
+    });
 }
-const { post } = Astro.props;
+
+const { post, entry } = Astro.props;
+
+let Content = null;
+
+if (entry) {
+  const rendered = await render(entry);
+  Content = rendered.Content;
+}
 ---
 
-<Base title={post.title + " — Amila Akagić"} description={post.excerpt}>
-    <div class="container">
-        <article class="article">
-            <a class="back" href={"/" + post.section.toLowerCase()}>
-                ← Back to {post.section}
-            </a>
-            <div class="meta">
-                {post.section} · {post.date} · {post.reading} read
-            </div>
-            <h1>{post.title}</h1>
-            <p class="lead">{post.excerpt}</p>
-            <figure>
-                <img src={post.image} alt={post.imageAlt} />
-                <figcaption>
-                    Illustrative image — replace with original photograph and
-                    caption.
-                </figcaption>
-            </figure>
-            <div class="article-content">
-                <p>
-                    This is an illustrative opening paragraph. The final version
-                    of this story will be written in your own voice, with your
-                    own observations and photographs.
-                </p>
-                <h2>What stayed with me</h2>
-                <p>
-                    Some places and ideas continue to unfold long after we
-                    encounter them. This section can connect the facts of an
-                    experience to a more personal reflection.
-                </p>
-                <h2>Notes and details</h2>
-                <p>
-                    Add historical context, reading references, small
-                    discoveries, or a gallery of photographs here. Keep each
-                    entry as short or as long as the subject deserves.
-                </p>
-            </div>
-        </article>
-    </div>
+<Base
+  title={post.title + " — Amila Akagić"}
+  description={post.excerpt}
+>
+  <div class="container">
+    <article class="article">
+
+      <a class="back" href={"/" + post.section.toLowerCase()}>
+        ← Back to {post.section}
+      </a>
+
+      <div class="meta">
+        {post.section} · {post.date} · {post.reading} read
+      </div>
+
+      <h1>{post.title}</h1>
+
+      <p class="lead">{post.excerpt}</p>
+
+      {post.image && (
+        <figure>
+          <img src={post.image} alt={post.imageAlt} />
+        </figure>
+      )}
+
+      <div class="article-content">
+        {Content ? (
+          <Content />
+        ) : (
+          <p>This article is coming soon.</p>
+        )}
+      </div>
+
+    </article>
+  </div>
 </Base>

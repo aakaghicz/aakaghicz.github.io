@@ -1,64 +1,93 @@
+
 ---
 import Base from "../layouts/Base.astro";
 import { posts } from "../data/posts.js";
+
+// Display the three most recent posts.
+// The posts.js array should be ordered newest first.
+const recentPosts = posts
+  .filter((post) => post.status === "published")
+  .slice(0, 3);
 ---
 
 <Base>
-    <div class="container">
-        <section class="hero">
-            <div class="eyebrow">
-                A personal journal · Science · Places · Ideas
+  <div class="container">
+    <section class="hero">
+      <div class="eyebrow">
+        A personal journal · Science · Places · Ideas
+      </div>
+
+      <h1>
+        A collection of places, thoughts, and
+        <br />
+        passing moments.
+      </h1>
+
+      <p class="intro">
+        I'm a scientist by profession, but curiosity has always
+        taken me far beyond science. I love exploring unfamiliar
+        places, understanding people and cultures, and noticing
+        the little details that others might overlook. This is
+        my corner of the world to share the stories, ideas,
+        questions, and moments that stay with me.
+      </p>
+    </section>
+  </div>
+
+  <img
+    class="hero-image"
+    src="/images/travel/sakura-japan.jpg"
+    alt="Cherry blossoms in Japan during sakura season"
+  />
+
+  <div class="container">
+    <div class="image-credit">
+      Sakura in Japan — a fleeting beauty that reminds me to
+      slow down and appreciate the moment.
+    </div>
+
+    <!-- Recent Writing -->
+    <section class="recent-writing">
+      <div class="section-head">
+        <h2>Recent Writing</h2>
+        <span class="more">Notes from the journal and beyond</span>
+      </div>
+
+      <div class="cards">
+        {recentPosts.map((post) => (
+          <a class="card" href={"/posts/" + post.slug}>
+            <img
+              src={post.image}
+              alt={post.imageAlt}
+              loading="lazy"
+            />
+
+            <div class="meta">
+              {post.section} · {post.date}
             </div>
-            <h1>
-                Curiosity, places,
-                <br />
-                and ideas.
-            </h1>
-            <p class="intro">
-                I am a researcher, teacher, traveler, and lifelong student of
-                the world. This is a place for things I discover, questions I
-                carry, and moments I want to remember.
-            </p>
-        </section>
-    </div>
-    <img
-        class="hero-image"
-        src="https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?auto=format&fit=crop&w=2000&q=85"
-        alt="Warm architectural landscape"
-    />
-    <div class="container">
-        <div class="image-credit">
-            Editorial placeholder photograph — replace with your own travel
-            image before publication.
-        </div>
-        <div class="section-head">
-            <h2>Recent writing</h2>
-            <span class="more">A growing collection</span>
-        </div>
-        <div class="cards">
-            {posts.map((post) => (
-                <a class="card" href={"/posts/" + post.slug}>
-                    <img src={post.image} alt={post.imageAlt} loading="lazy" />
-                    <div class="meta">
-                        {post.section} · {post.date}
-                    </div>
-                    <h3>{post.title}</h3>
-                    <p>{post.excerpt}</p>
-                </a>
-            ))}
-        </div>
-        <section class="small-note">
-            <div class="eyebrow">A note about this space</div>
-            <h2>More than a professional biography.</h2>
-            <p>
-                I work in artificial intelligence and teach people how to ask
-                questions of data. Outside the classroom, I am drawn to history,
-                architecture, books, music, and unfamiliar places. Here, these
-                interests can coexist.
-            </p>
-            <a class="more" href="/about">
-                Read more about me →
-            </a>
-        </section>
-    </div>
+
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="small-note">
+      <div class="eyebrow">A note about this space</div>
+
+      <h2>More than a professional biography.</h2>
+
+      <p>
+        I work in artificial intelligence and teach people how
+        to ask questions of data. Outside the classroom, I am
+        drawn to history, architecture, books, music, and
+        unfamiliar places. Here, these interests can coexist.
+      </p>
+
+      <a class="more" href="/about">
+        Read more about me →
+      </a>
+    </section>
+  </div>
 </Base>

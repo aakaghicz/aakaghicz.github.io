@@ -1,7 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import { posts } from "../data/posts.js";
-const filtered = posts.filter((p) => p.section.toLowerCase() === "journal");
+const filtered = posts.filter(
+  (p) =>
+    p.section.toLowerCase() === "journal" &&
+    p.status === "published"
+);
 ---
 
 <Base title="Journal — Amila Akagić">
