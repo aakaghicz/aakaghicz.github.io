@@ -6,12 +6,19 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const journalEntries = await getCollection("journal");
+  const travelEntries = await getCollection("travel");
 
   return posts
     .filter((post) => post.status === "published")
     .map((post) => {
-      const entry = journalEntries.find(
-        (item: CollectionEntry<"journal">) => item.id === post.slug
+      const entries =
+        post.section.toLowerCase() === "travel"
+          ? travelEntries
+          : journalEntries;
+
+      const entry = entries.find(
+        (item: CollectionEntry<"journal"> | CollectionEntry<"travel">) =>
+          item.id === post.slug
       );
 
       return {

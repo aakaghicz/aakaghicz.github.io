@@ -27,7 +27,21 @@ const journal = defineCollection({
   }),
 });
 
+const travel = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/travel",
+  }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    status: z.string().optional(),
+  }),
+});
+
 export const collections = {
   journal,
-  quotes
+  quotes,
+  travel
 };
+
