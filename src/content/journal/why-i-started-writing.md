@@ -10,6 +10,16 @@ But there is something I have been thinking about lately. Many of us spend a gre
 
 I have often wondered what happens to all those thoughts and experiences if we never write them down.
 
+> **A NOTE ON WRITING AND MEMORY**
+>
+> **Remembering**  
+> Keeping an experience alive in our minds, even as some of its details change or fade with time.
+>
+> **Writing**  
+> Giving those memories and thoughts a more permanent form, and sometimes discovering what they mean in the process.
+>
+> *We write not only to remember what happened, but also to understand how it changed us.*
+
 For years, I have wanted to write a book. Not necessarily about one particular subject, but about life, people, places, science, and everything I have learned along the way. The problem was always the same: where would I even begin? There was simply too much to say. So, like many things we promise ourselves we will do one day, the book remained an idea.
 
 Perhaps this website is my way of finally beginning.

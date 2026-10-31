@@ -28,6 +28,16 @@ I sometimes think this is one of the problems we have in the Balkans. We seem to
 
 Of course, this is a huge generalization. There are wonderful, humble people everywhere, including Bosnia and Herzegovina. I have been fortunate to know many of them. I am only describing what I experienced and how it affected me.
 
+> **A NOTE ON HUMILITY**
+>
+> **Being humble**  
+> Recognizing your own abilities and achievements without feeling superior to others.
+>
+> **Humility**  
+> The quality behind that behavior: understanding that no matter how much you know or accomplish, you still have things to learn, and everyone deserves respect.
+>
+> *Neither means thinking less of yourself or allowing others to treat you poorly.*
+
 There is another lesson here about traveling. We often talk about how wonderful it is to explore the world, experience different cultures, and broaden our horizons. And it really is. But we rarely mention that traveling can also make it harder to return home. Once you have experienced different ways of living and treating people, some things become difficult to accept again.
 
 Sometimes traveling changes you in ways that are not entirely comfortable.

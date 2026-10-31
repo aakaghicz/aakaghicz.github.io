@@ -188,3 +188,34 @@ button, .button, input[type='submit'] { background: var(--accent); color: white;
 .article-content tr:hover {
   background: #faf5f7;
 }
+
+
+/* Editorial definition box for journal articles */
+
+.article-content blockquote {
+  margin: 32px 0;
+  padding: 24px 28px;
+  background: #FAF8F5;
+  border-left: 3px solid #D93672;
+  border-radius: 0 8px 8px 0;
+  font-style: normal;
+  line-height: 1.75;
+}
+
+.article-content blockquote p {
+  margin: 0 0 14px;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.article-content blockquote strong {
+  color: #D93672;
+  font-weight: 600;
+}
+
+.article-content blockquote em {
+  color: #6B6268;
+  font-family: Georgia, serif;
+}
