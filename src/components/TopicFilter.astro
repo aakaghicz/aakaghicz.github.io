@@ -1,0 +1,81 @@
+
+---
+const { topics = [], active = "", allHref = "/" } = Astro.props;
+---
+
+<nav class="topic-filter" aria-label="Explore by topic">
+  <span class="topic-label">EXPLORE BY TOPIC</span>
+
+  <div class="topic-list">
+    <a
+      href={allHref}
+      class:list={["topic-pill", { active: !active }]}
+    >
+      All stories
+    </a>
+
+    {topics.map((topic: string) => (
+      <a
+        href={`/topics/${encodeURIComponent(
+          topic.toLowerCase().replace(/\s+/g, "-")
+        )}`}
+        class:list={[
+          "topic-pill",
+          { active: active === topic }
+        ]}
+      >
+        {topic}
+      </a>
+    ))}
+  </div>
+</nav>
+
+
+<style>
+  .topic-filter {
+    margin: 20px 0 40px;
+  }
+
+  .topic-label {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #81777c;
+  }
+
+  .topic-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topic-pill {
+    display: inline-block;
+    padding: 9px 16px;
+    border: 1px solid #e8e0e5;
+    border-radius: 999px;
+    background: #faf8f5;
+    color: #51464c;
+    font-size: 13px;
+    line-height: 1.4;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .topic-pill:hover {
+    color: #d93672;
+    border-color: #d93672;
+    background: #fff;
+  }
+
+  .topic-pill.active {
+    background: #d93672;
+    border-color: #d93672;
+    color: white;
+  }
+</style>

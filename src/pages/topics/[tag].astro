@@ -1,0 +1,76 @@
+
+---
+import Base from "../../layouts/Base.astro";
+import { posts } from "../../data/posts.js";
+
+type PostWithTags = (typeof posts)[number] & { tags?: string[] };
+
+const PAGE_SIZE = 9;
+
+export function getStaticPaths() {
+  // Define everything needed inside this function.
+  const PAGE_SIZE = 9;
+  const published = posts.filter(
+    (post) => post.status === "published"
+  );
+
+  const topics = [
+    ...new Set(
+      published.flatMap((post) => (post as PostWithTags).tags || [])
+    ),
+  ];
+
+  return topics.map((topic) => ({
+    params: {
+      tag: topic.toLowerCase().trim().replace(/\s+/g, "-"),
+    },
+    props: {
+      topic,
+    },
+  }));
+}
+
+const { topic } = Astro.props;
+
+const filtered = posts
+  .filter(
+    (post) =>
+      post.status === "published" &&
+      ((post as PostWithTags).tags || []).includes(topic)
+  )
+  .sort(
+    (a, b) =>
+      new Date(b.date).getTime() -
+      new Date(a.date).getTime()
+  );
+---
+
+<Base title={`${topic} — Notes by Amila`}>
+  <div class="container">
+    <section class="archive-intro">
+      <div class="eyebrow">Explore by topic</div>
+      <h1>{topic}</h1>
+      <p>
+        {filtered.length}
+        {filtered.length === 1 ? " story" : " stories"}
+        {" "}about {topic.toLowerCase()}.
+      </p>
+      <a href="/journal">← Back to Journal</a>
+    </section>
+
+    <div class="cards" style="padding-bottom:100px">
+      {filtered.map((post) => (
+        <a class="card" href={`/posts/${post.slug}`}>
+          <img
+            src={post.image}
+            alt={post.imageAlt || post.title}
+            loading="lazy"
+          />
+          <div class="meta">{post.section} · {post.date}</div>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

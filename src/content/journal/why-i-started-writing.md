@@ -2,6 +2,10 @@
 title: 'Why I Started Writing'
 date: 2026-10-30
 status: published
+tags:
+- Motivation
+- Personal Growth
+- Life Lessons
 ---
 
 I have always loved reading. Books, articles, essays, biographies, and sometimes just a few sentences that make me stop and think. I enjoy discovering how other people see the world, how they make sense of their experiences, and how they put into words things I may have thought about myself but never quite managed to express.

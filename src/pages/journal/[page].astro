@@ -1,0 +1,85 @@
+
+---
+import Base from "../../layouts/Base.astro";
+import { posts } from "../../data/posts.js";
+
+const PAGE_SIZE = 9;
+
+export function getStaticPaths() {
+  const filtered = posts
+    .filter(
+      (p) =>
+        p.section.toLowerCase() === "journal" &&
+        p.status === "published"
+    )
+    .sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+
+  return Array.from(
+    { length: Math.max(0, totalPages - 1) },
+    (_, i) => {
+      const page = i + 2;
+      return {
+        params: { page: String(page) },
+        props: {
+          pagePosts: filtered.slice(
+            (page - 1) * PAGE_SIZE,
+            page * PAGE_SIZE
+          ),
+          page,
+          totalPages,
+        },
+      };
+    }
+  );
+}
+
+const { pagePosts, page, totalPages } = Astro.props;
+---
+
+<Base title={`Journal — Page ${page} — Amila Akagić`}>
+  <div class="container">
+    <section class="archive-intro">
+      <div class="eyebrow">Archive</div>
+      <h1>Journal</h1>
+      <p>Short reflections, ordinary days, and personal notes.</p>
+    </section>
+
+    <div class="cards">
+      {pagePosts.map((post: (typeof posts)[number]) => (
+        <a class="card" href={"/posts/" + post.slug}>
+          <img src={post.image} alt={post.imageAlt} />
+          <div class="meta">{post.date}</div>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+        </a>
+      ))}
+    </div>
+
+    <nav class="pagination" aria-label="Journal pagination">
+      <a href={page === 2 ? "/journal" : `/journal/${page - 1}`}>
+        ← Previous
+      </a>
+
+      <a href="/journal">1</a>
+
+      {Array.from(
+        { length: totalPages - 1 },
+        (_, i) => i + 2
+      ).map((n) =>
+        n === page ? (
+          <span class="page-current" aria-current="page">{n}</span>
+        ) : (
+          <a href={`/journal/${n}`}>{n}</a>
+        )
+      )}
+
+      {page < totalPages && (
+        <a href={`/journal/${page + 1}`}>Next →</a>
+      )}
+    </nav>
+  </div>
+</Base>

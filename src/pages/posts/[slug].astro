@@ -2,8 +2,13 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { posts } from "../../data/posts.js";
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import {
+  getCollection,
+  render,
+  type CollectionEntry,
+} from "astro:content";
 
+// Generate a page for every published article
 export async function getStaticPaths() {
   const journalEntries = await getCollection("journal");
   const travelEntries = await getCollection("travel");
@@ -17,8 +22,11 @@ export async function getStaticPaths() {
           : journalEntries;
 
       const entry = entries.find(
-        (item: CollectionEntry<"journal"> | CollectionEntry<"travel">) =>
-          item.id === post.slug
+        (
+          item:
+            | CollectionEntry<"journal">
+            | CollectionEntry<"travel">
+        ) => item.id === post.slug
       );
 
       return {
@@ -28,8 +36,40 @@ export async function getStaticPaths() {
     });
 }
 
+// Current article
 const { post, entry } = Astro.props;
 
+// Find other published articles in the same category
+const relatedPosts = posts
+  .filter(
+    (p) =>
+      p.status === "published" &&
+      p.section.toLowerCase() ===
+        post.section.toLowerCase()
+  )
+  .sort(
+    (a, b) =>
+      new Date(a.date).getTime() -
+      new Date(b.date).getTime()
+  );
+
+const currentIndex = relatedPosts.findIndex(
+  (p) => p.slug === post.slug
+);
+
+// Previous and next articles
+const previousPost =
+  currentIndex > 0
+    ? relatedPosts[currentIndex - 1]
+    : null;
+
+const nextPost =
+  currentIndex >= 0 &&
+  currentIndex < relatedPosts.length - 1
+    ? relatedPosts[currentIndex + 1]
+    : null;
+
+// Render Markdown article
 let Content = null;
 
 if (entry) {
@@ -39,16 +79,59 @@ if (entry) {
 ---
 
 <Base
-  title={post.title + " — Amila Akagić"}
+  title={`${post.title} — Notes by Amila`}
   description={post.excerpt}
 >
   <div class="container">
     <article class="article">
 
-      <a class="back" href={"/" + post.section.toLowerCase()}>
-        ← Back to {post.section}
-      </a>
+      <!-- Back to Journal / Travel -->
+      <div class="article-back-row">
+        <a
+          class="back"
+          href={`/${post.section.toLowerCase()}`}
+        >
+          ← Back to {post.section}
+        </a>
+      </div>
 
+      <!-- Compact top navigation -->
+      {(previousPost || nextPost) && (
+        <nav
+          class="story-nav-top"
+          aria-label="Previous and next stories"
+        >
+          <div class="story-nav-item">
+            {previousPost && (
+              <a href={`/posts/${previousPost.slug}`}>
+                <span class="nav-direction">
+                  ← Previous
+                </span>
+                <span class="nav-separator">|</span>
+                <span class="nav-article-title">
+                  {previousPost.title}
+                </span>
+              </a>
+            )}
+          </div>
+
+          <div class="story-nav-item next">
+            {nextPost && (
+              <a href={`/posts/${nextPost.slug}`}>
+                <span class="nav-article-title">
+                  {nextPost.title}
+                </span>
+                <span class="nav-separator">|</span>
+                <span class="nav-direction">
+                  Next →
+                </span>
+              </a>
+            )}
+          </div>
+        </nav>
+      )}
+
+      <!-- Article header -->
       <div class="meta">
         {post.section} · {post.date} · {post.reading} read
       </div>
@@ -57,12 +140,17 @@ if (entry) {
 
       <p class="lead">{post.excerpt}</p>
 
+      <!-- Cover image -->
       {post.image && (
         <figure>
-          <img src={post.image} alt={post.imageAlt} />
+          <img
+            src={post.image}
+            alt={post.imageAlt || post.title}
+          />
         </figure>
       )}
 
+      <!-- Article body -->
       <div class="article-content">
         {Content ? (
           <Content />
@@ -71,6 +159,218 @@ if (entry) {
         )}
       </div>
 
+      <!-- Bottom navigation -->
+      {(previousPost || nextPost) && (
+        <nav
+          class="story-navigation"
+          aria-label="Continue reading"
+        >
+          <div class="story-nav-label">
+            CONTINUE READING
+          </div>
+
+          <div class="story-nav-grid">
+            {previousPost ? (
+              <a
+                class="story-nav-card previous"
+                href={`/posts/${previousPost.slug}`}
+              >
+                <span class="story-nav-direction">
+                  ← Previous story
+                </span>
+                <span class="story-nav-title">
+                  {previousPost.title}
+                </span>
+              </a>
+            ) : (
+              <div class="story-nav-empty"></div>
+            )}
+
+            {nextPost ? (
+              <a
+                class="story-nav-card next"
+                href={`/posts/${nextPost.slug}`}
+              >
+                <span class="story-nav-direction">
+                  Next story →
+                </span>
+                <span class="story-nav-title">
+                  {nextPost.title}
+                </span>
+              </a>
+            ) : (
+              <div class="story-nav-empty"></div>
+            )}
+          </div>
+        </nav>
+      )}
+
     </article>
   </div>
 </Base>
+
+<style>
+  /* Back to Journal / Travel */
+
+  .article-back-row {
+    margin: 0 0 14px;
+    padding: 0;
+  }
+
+  .article-back-row .back {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #d93672;
+    text-decoration: none;
+  }
+
+  .article-back-row .back:hover {
+    text-decoration: underline;
+  }
+
+  /* Compact top navigation */
+
+  .story-nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0 0 28px;
+    padding: 12px 0 18px;
+    border-top: 1px solid #e8e0e5;
+    border-bottom: 1px solid #e8e0e5;
+  }
+
+  .story-nav-item {
+    min-width: 0;
+  }
+
+  .story-nav-item a {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .nav-direction {
+    color: #d93672;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .nav-separator {
+    color: #c8bec4;
+  }
+
+  .nav-article-title {
+    color: #51464c;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .story-nav-item.next {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .story-nav-item a:hover .nav-article-title {
+    color: #d93672;
+  }
+
+  /* Bottom navigation */
+
+  .story-navigation {
+    margin-top: 65px;
+    padding: 32px 0 80px;
+    border-top: 1px solid #e8e0e5;
+  }
+
+  .story-nav-label {
+    margin-bottom: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #81777c;
+  }
+
+  .story-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .story-nav-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px;
+    border: 1px solid #e8e0e5;
+    border-radius: 10px;
+    background: #faf8f5;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .story-nav-card:hover {
+    border-color: #d93672;
+    background: #fff;
+    transform: translateY(-2px);
+  }
+
+  .story-nav-direction {
+    font-size: 12px;
+    color: #d93672;
+  }
+
+  .story-nav-title {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: #2d272b;
+  }
+
+  .story-nav-card.next {
+    text-align: right;
+  }
+
+  /* Mobile adjustments */
+
+  @media (max-width: 600px) {
+    .story-nav-top {
+      gap: 12px;
+      padding: 10px 0 14px;
+    }
+
+    .story-nav-item a {
+      gap: 7px;
+      font-size: 12px;
+    }
+
+    .nav-article-title {
+      font-size: 12px;
+    }
+
+    .story-nav-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .story-nav-empty {
+      display: none;
+    }
+
+    .story-nav-title {
+      font-size: 16px;
+    }
+  }
+</style>

@@ -1,25 +1,62 @@
+
 ---
 import Base from "../layouts/Base.astro";
 import { posts } from "../data/posts.js";
-const filtered = posts.filter((p) => p.section.toLowerCase() === "travel");
+import TopicFilter from "../components/TopicFilter.astro";
+
+const PAGE_SIZE = 9;
+
+const filtered = posts
+  .filter(
+    (p) =>
+      p.section.toLowerCase() === "travel" &&
+      p.status === "published"
+  )
+  .sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+const pagePosts = filtered.slice(0, PAGE_SIZE);
 ---
 
-<Base title="Travel — Amila Akagić">
-    <div class="container">
-        <section class="archive-intro">
-            <div class="eyebrow">Archive</div>
-            <h1>Travel</h1>
-            <p>Places, journeys, architecture, and photographic stories.</p>
-        </section>
-        <div class="cards" style="padding-bottom:100px">
-            {filtered.map((post) => (
-                <a class="card" href={"/posts/" + post.slug}>
-                    <img src={post.image} alt={post.imageAlt} />
-                    <div class="meta">{post.date}</div>
-                    <h3>{post.title}</h3>
-                    <p>{post.excerpt}</p>
-                </a>
-            ))}
-        </div>
+<Base title="Travel — Notes by Amila">
+  <div class="container">
+    <section class="archive-intro">
+      <div class="eyebrow">Journeys</div>
+      <h1>Travel</h1>
+      <p>Places, journeys, architecture, and photographic stories.</p>
+    </section>
+
+    <TopicFilter
+    topics={["Uzbekistan", "Japan", "Architecture", "Culture"]}
+    allHref="/travel"
+    />
+
+    <div class="cards">
+      {pagePosts.map((post) => (
+        <a class="card" href={"/posts/" + post.slug}>
+          <img src={post.image} alt={post.imageAlt} />
+          <div class="meta">{post.date}</div>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+        </a>
+      ))}
     </div>
+
+    {totalPages > 1 && (
+      <nav class="pagination" aria-label="Travel pagination">
+        <span class="page-current">1</span>
+        {Array.from(
+          { length: totalPages - 1 },
+          (_, i) => i + 2
+        ).map((n) => (
+          <a href={"/travel/" + n}>{n}</a>
+        ))}
+        <a href="/travel/2" aria-label="Next page">
+          Next →
+        </a>
+      </nav>
+    )}
+  </div>
 </Base>

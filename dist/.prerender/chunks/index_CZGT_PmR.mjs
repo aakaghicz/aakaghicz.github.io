@@ -1,0 +1,17 @@
+import { i as __exportAll, r as createComponent, t as $$Base } from "./Base_DE-pOM95.mjs";
+import { g as maybeRenderHead, h as renderTemplate, l as renderComponent, v as addAttribute } from "./server_BCYU2qhi.mjs";
+import { t as posts } from "./posts_CxDoSEZe.mjs";
+// src/pages/index.astro
+var pages_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$Index,
+	file: () => $$file,
+	url: () => ""
+});
+var $$Index = createComponent(($$result, $$props, $$slots) => {
+	const recentPosts = posts.filter((post) => post.status === "published").slice(0, 3);
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {}, { "default": ($$result) => renderTemplate`${maybeRenderHead($$result)}<div class="container"><section class="hero"><div class="eyebrow">A personal journal · Science · Places · Ideas</div><h1>A collection of places, thoughts, and<br>passing moments.</h1><p class="intro">I'm a scientist by profession, but curiosity has always taken me far beyond science. I love exploring unfamiliar places, understanding people and cultures, and noticing the little details that others might overlook. This is my corner of the world to share the stories, ideas, questions, and moments that stay with me.</p></section></div><img class="hero-image" src="/images/travel/sakura-japan.jpg" alt="Cherry blossoms in Japan during sakura season"><div class="container"><div class="image-credit">Sakura in Japan — a fleeting beauty that reminds me to slow down and appreciate the moment.</div><!-- Recent Writing --><section class="recent-writing"><div class="section-head"><h2>Recent Writing</h2><span class="more">Notes from the journal and beyond</span></div><div class="cards">${recentPosts.map((post) => renderTemplate`<a class="card"${addAttribute("/posts/" + post.slug, "href")}><img${addAttribute(post.image, "src")}${addAttribute(post.imageAlt, "alt")} loading="lazy"><div class="meta">${post.section} · ${post.date}</div><h3>${post.title}</h3><p>${post.excerpt}</p></a>`)}</div></section><section class="small-note"><div class="eyebrow">A note about this space</div><h2>More than a professional biography.</h2><p>I work in artificial intelligence and teach people how to ask questions of data. Outside the classroom, I am drawn to history, architecture, books, music, and unfamiliar places. Here, these interests can coexist.</p><a class="more" href="/about">Read more about me →</a></section></div>` })}`;
+}, "/Users/amak/Documents/GitHub/aakaghicz.github.io/src/pages/index.astro", void 0);
+var $$file = "/Users/amak/Documents/GitHub/aakaghicz.github.io/src/pages/index.astro";
+// \0virtual:astro:page:src/pages/index@_@astro
+var page = () => pages_exports;
+export { page };
