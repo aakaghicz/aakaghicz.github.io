@@ -21,4 +21,15 @@ export const posts = [
   reading: "15 min",
   status: "published"
 }, 
+{
+  slug: "on-being-humble",
+  title: "The Quiet Strength of Humility",
+  section: "Journal",
+  date: "31 October 2026",
+  excerpt: "On growing up with humility, learning to stand my ground, and discovering that kindness and strength can coexist.",
+  image: "/images/journal/humble.jpg",
+  imageAlt: "Two sides of the story and a need to adapt to the world around me.",
+  reading: "5 min",
+  status: "published"
+},
 ];
