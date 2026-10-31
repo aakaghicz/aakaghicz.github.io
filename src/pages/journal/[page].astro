@@ -3,9 +3,8 @@
 import Base from "../../layouts/Base.astro";
 import { posts } from "../../data/posts.js";
 
-const PAGE_SIZE = 9;
-
 export function getStaticPaths() {
+  const PAGE_SIZE = 9;
   const filtered = posts
     .filter(
       (p) =>
